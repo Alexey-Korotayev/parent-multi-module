@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>epam.com</groupId>
+  <artifactId>parent-multi-module</artifactId>
+
+  <packaging>pom</packaging>
+
+  <version>1.0-SNAPSHOT</version>
+  <name>parent-multi-module</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>env-test</id>
+      <properties>
+        <tomcatHost>test.com</tomcatHost>
+        <tomcatPort>8080</tomcatPort>
+        <tomcatManagerUser>alex</tomcatManagerUser>
+        <tomcatManagerPassword>alex</tomcatManagerPassword>
+      </properties>
+    </profile>
+    <profile>
+      <id>build-war1</id>
+      <modules>
+        <module>web</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>build-war2</id>
+      <modules>
+        <module>dao</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>build-war3</id>
+      <modules>
+        <module>service</module>
+      </modules>
+    </profile>
+
+    <profile>
+        <id>dev</id>
+        <build>
+          <finalName>DEV_multi_modul</finalName>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cobertura-maven-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>site</id>
+                  <phase>pre-site</phase>
+                  <goals>
+                    <goal>cobertura</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-pmd-plugin</artifactId>
+              <version>3.0.1</version>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <!--style code-->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-checkstyle-plugin</artifactId>
+              <version>2.17</version>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+        <modules>
+          <module>web</module>
+          <module>dao</module>
+          <module>service</module>
+        </modules>
+
+
+      </profile>
+
+      <profile>
+        <id>prod</id>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
+        <build>
+          <finalName>PROD_multi_modul</finalName>
+          <plugins>
+            <!--report for use integration test-->
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cobertura-maven-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>site</id>
+                  <phase>pre-site</phase>
+                  <goals>
+                    <goal>cobertura</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <!--analysis code-->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-pmd-plugin</artifactId>
+              <version>3.0.1</version>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+        <modules>
+          <module>dao</module>
+          <module>service</module>
+          <module>web</module>
+        </modules>
+      </profile>
+
+  </profiles>
+
+  <reporting>
+    <plugins>
+      <!--report for use integration test-->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+</project>
