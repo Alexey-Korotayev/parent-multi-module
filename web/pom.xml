@@ -36,7 +36,25 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
-  <build>
-    <finalName>web</finalName>
-  </build>
+
+  <profiles>
+  <profile>
+    <id>dev</id>
+    <build>
+      <finalName>WEBdev_multi_modul</finalName>
+    </build>
+  </profile>
+  <profile>
+    <id>prod</id>
+    <activation>
+      <activeByDefault>true</activeByDefault>
+    </activation>
+    <build>
+      <finalName>WEBprod_multi_modul</finalName>
+    </build>
+  </profile>
+
+</profiles>
+
+
 </project>

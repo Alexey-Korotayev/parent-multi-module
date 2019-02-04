@@ -112,6 +112,29 @@
         <build>
           <finalName>PROD_multi_modul</finalName>
           <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.5.1</version>
+              <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <encoding>UTF-8</encoding>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+              <configuration>
+                <url>http://127.0.0.1:8080/manager</url>
+                <server>TomcatServer</server>
+                <username>admin</username>
+                <password>password</password>
+                <path>/client</path>
+                <update>true</update>
+              </configuration>
+            </plugin>
             <!--report for use integration test-->
             <plugin>
               <groupId>org.codehaus.mojo</groupId>
@@ -159,8 +182,37 @@
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>2.6</version>
       </plugin>
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+        </configuration>
+      </plugin>
+      -->
     </plugins>
   </reporting>
 
 
 </project>
+
+
+        <!--
+
+Tomcat прописываем пользователя admin/password с ролями «manager-gui,manager-script» в файле tomcat-users.xml:
+
+<user username="admin" password="password" roles="manager-gui,manager-script"></user>
+        Добавляем в мавен файл settings.xml по пути C:\Users\%username%\.m2 (для Windows):
+
+        <settings>
+        <servers>
+          <server>
+            <id>apache-tomcat</id>
+            <username>admin</username>
+            <password>password</password>
+          </server>
+        </servers>
+        </settings>
+        -->
